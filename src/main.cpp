@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "Model_OBJ.h"
+#include "manifold/Model_OBJ.h"
 extern int g_sharp;
 int main(int argc, char** argv)
 {

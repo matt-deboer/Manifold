@@ -1,4 +1,4 @@
-#include "Model_OBJ.h"
+#include "manifold/Model_OBJ.h"
 #include <queue>
 #define ITER_NUM 20
 int g_sharp = 0;

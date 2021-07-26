@@ -1,4 +1,4 @@
-#include "BVH.h"
+#include "manifold/BVH.h"
 
 void BVH::updateBVH(std::vector<BV*>& bvs, int dim, int l, int r) {
     left = 0, right = 0;

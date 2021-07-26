@@ -23,9 +23,6 @@ option(BUILD_PERFORMANCE_TEST "More subdivisition for performance test" OFF)
 option(BUILD_OPENMP "Enable support for OpenMP" OFF)
 option(BUILD_LOG "Enable verbose log" OFF)
 
-include_directories(src)
-include_directories(3rd)
-
 if(BUILD_PERFORMANCE_TEST)
     add_definitions(-DPERFORMANCE_TEST)
 endif(BUILD_PERFORMANCE_TEST)
@@ -41,14 +38,23 @@ endif(BUILD_LOG)
 set(
     manifold_SRC
     src/BVH.cpp
-    src/BVH.h
     src/Intersection.cpp
-    src/Intersection.h
-    src/main.cpp
     src/Model_OBJ.cpp
-    src/Model_OBJ.h
-    src/Octree.h    
 )
+
+if (BUILD_SHARED_LIBS)
+    add_library(manifold SHARED ${manifold_SRC})
+else()
+    add_library(manifold STATIC ${manifold_SRC})
+endif()
+
+target_include_directories(manifold PUBLIC include)
+target_include_directories(manifold PUBLIC 3rd)
+
+add_executable(manifold-bin src/main.cpp)
+set_target_properties(manifold-bin PROPERTIES OUTPUT_NAME manifold)
+target_link_libraries(manifold-bin PRIVATE manifold)
+# target_link_libraries(manifold-bin PRIVATE 3rd)
 
 set(
     simplify_SRC
@@ -56,12 +62,8 @@ set(
 )
 
 add_executable(
-    manifold
-    ${manifold_SRC}
-)
-
-add_executable(
     simplify
     ${simplify_SRC}
 )
+target_include_directories(simplify PRIVATE 3rd)
 
